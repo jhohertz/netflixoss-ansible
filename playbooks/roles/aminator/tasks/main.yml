@@ -46,7 +46,7 @@
   tags: config
 
 - name: Checkout NetflixOSS-Ansible code from Github
-  git: repo=https://github.com/Answers4AWS/netflixoss-ansible.git
+  git: repo=https://github.com/jhohertz/netflixoss-ansible.git
        dest=/usr/local/netflixoss-ansible
        version=master
   tags: netflixoss
