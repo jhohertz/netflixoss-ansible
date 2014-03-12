@@ -1,0 +1,14 @@
+---
+# Exhibitor playbook for Amazon Linux
+- name: Exhibitor
+  user: ec2-user
+  sudo: True
+  tags: exhibitor
+  hosts: all
+  roles:
+    - base
+    - oracle-java7
+    - exhibitor
+  vars:
+  vars_files:
+    - vars/{{ ansible_distribution }}.yml
