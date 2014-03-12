@@ -1,0 +1,74 @@
+---
+ami_build: ami is defined and ami 
+not_ami_build: ami is not defined or not ami
+latest_successful_build_url: https://github.com/Netflix/asgard/releases/download/asgard-1.4.1/asgard.war
+zookeeper: 
+  version: '3.4.5'
+  basename: 'zookeeper-{{ zookeeper.version }}'
+  mirror: 'http://mirrors.ibiblio.org/apache/zookeeper/{{ zookeeper.basename }}/{{ zookeeper.basename }}.tar.gz'
+  checksum: 'e92b634e99db0414c6642f6014506cc22eefbea42cc912b57d7d0527fb7db132'
+  install_dir: '/opt/zookeeper'
+  user: 'zookeeper'
+  group: 'zookeeper'
+exhibitor:
+  version: '1.5.0'
+  basename: 'exhibitor-{{ exhibitor.version }}'
+  mirror: 'http://example.com/{{ exhibitor.basename }}.jar'
+  checksum: ''
+  install_dir: '/opt/exhibitor'
+  script_dir: '/usr/local/bin/'
+  snapshot_dir: '/tmp/zookeeper'
+  transaction_dir: '/tmp/zookeeper'
+  log_index_dir: '/tmp/zookeeper_log_indexes'
+  jar_dest: '{{ exhibitor.install_dir }}/{{ exhibitor.version }}.jar'
+  log4j_props: '{{ exhibitor.install_dir }}/log4j.properties'
+  log_to_syslog: '1'
+  loglevel: 'info'
+  # For --configtype s3, backups
+  s3key: ''
+  s3secret: ''
+  opts:
+    port: '8080'
+    hostname: node[:ipaddress]
+    defaultconfig: '{{ exhibitor.install_dir }}/exhibitor.properties'
+    s3credentials: '{{ exhibitor.install_dir }}/exhibitor.s3.properties'
+    configtype: 'file'
+    # For --contiftype file
+    fsconfigdir: '/tmp'
+    # For --configtype s3, set:
+    s3config: 'exhibitor:exhibitor-config'
+    s3region: 'us-east-1' # i.e. us-east-1
+    # If true, enables AWS S3 backup of ZooKeeper log files (s3credentials may be provided as well).
+    s3backup: "false"
+    # Max lines of logging to keep in memory for display.
+    loglines: "1000"
+    # If true, the Explorer UI will allow nodes to be modified (use with caution).
+    nodemodification: "false" # true/false
+    # If enabled, ZooKeeper will be queried once a minute for its state via the 'mntr' four letter word
+    # (this requires ZooKeeper 3.4.x+). Servo will be used to publish this data via JMX.
+    servo: "true"
+    # Connection timeout (ms) for ZK connections.
+    timeout: "30000"
+    # Period (ms) to check for shared config updates.
+    configcheckms: 30000
+    # Styling used for the JQuery-based UI. Currently available options: red, black, custom
+    jquerystyle: "red"
+    # Extra text to display in UI header
+    headingtext: "Exhibitor"
+  defaultconfig:
+    cleanup_period_ms: '300000'
+    zookeeper_install_directory: '{{ zookeeper.install_dir }}/*'
+    check_ms: '30000'
+    backup_period_ms: '0'
+    client_port: '2181'
+    cleanup_max_files: '20'
+    backup_max_store_ms: '0'
+    connect_port: '2888'
+    backup_extra: ''
+    observer_threshold: '0'
+    election_port: '3888'
+    zoo_cfg_extra: 'tickTime\=2000&initLimit\=10&syncLimit\=5'
+    auto_manage_instances_settling_period_ms: '0'
+    auto_manage_instances: '1'
+    servers_spec: '1:#{node[:ipaddress]}'
+
