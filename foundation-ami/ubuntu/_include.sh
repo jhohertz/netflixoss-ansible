@@ -62,12 +62,14 @@ else
 fi
 
 # AMI name and description
-name="$brand-ubuntu-$release-$arch-ebs-$now"
+name="$brand-ubuntu-$release-$arch-ebs-pv-$now"
+namehvm="$brand-ubuntu-$release-$arch-ebs-hvm-$now"
 description="${brand^} on Ubuntu $release"
 
 # AMI details
 imagename=$codename-server-cloudimg-$arch2
 imageurl=http://uec-images.ubuntu.com/$codename/current/$imagename.tar.gz
+imageurlhd00=http://uec-images.ubuntu.com/$codename/current/$imagename-disk1.img
 amisurl=http://uec-images.ubuntu.com/query/$codename/server/released.current.txt
 zoneurl=http://169.254.169.254/latest/meta-data/placement/availability-zone
 zone=$(wget -qO- $zoneurl)
