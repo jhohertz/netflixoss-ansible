@@ -40,26 +40,14 @@ echo "Updating and installing packages needed to build the AMI"
 # Update and install Ubuntu packages
 export DEBIAN_FRONTEND=noninteractive
 sudo perl -pi -e 's/^# *(deb .*multiverse)$/$1/' /etc/apt/sources.list
+sudo add-apt-repository -y ppa:jhohertz/aws-ppa
 sudo apt-get update
 sudo -E apt-get upgrade -y
 sudo -E apt-get install --no-install-recommends -y \
  ec2-ami-tools            \
  ec2-api-tools            \
  qemu-utils               \
- parted                   \
  git-core
-
-# This is here because we need to use IAM Roles
-if [ ! -e ec2-api-tools_1.6.12.0-0ubuntu1_all.deb ]; then
-	wget http://mirrors.us.kernel.org/ubuntu/pool/multiverse/e/ec2-api-tools/ec2-api-tools_1.6.12.0-0ubuntu1_all.deb
-fi
-sudo dpkg -i ec2-api-tools_1.6.12.0-0ubuntu1_all.deb
-
-if [ ! -e ec2-ami-tools_1.4.0.9-0ubuntu2_all.deb ]; then
-	wget http://mirrors.us.kernel.org/ubuntu/pool/multiverse/e/ec2-ami-tools/ec2-ami-tools_1.4.0.9-0ubuntu2_all.deb
-fi
-sudo dpkg -i ec2-ami-tools_1.4.0.9-0ubuntu2_all.deb
-
 
 # Download base Ubuntu server image built by Canonical
 image=/mnt/$imagename.img
