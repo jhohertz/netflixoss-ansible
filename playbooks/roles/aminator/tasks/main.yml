@@ -48,7 +48,7 @@
 - name: Checkout NetflixOSS-Ansible code from Github
   git: repo=https://github.com/jhohertz/netflixoss-ansible.git
        dest=/usr/local/netflixoss-ansible
-       version=master
+       version=exhibitor
   tags: netflixoss
   
 - name: Copy repo updating script
